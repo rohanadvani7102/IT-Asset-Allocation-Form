@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>IT Asset Allocation — User Undertaking &amp; Sign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --plum: #6C1F52;
+    --plum-dark: #4A1439;
+    --plum-tint: #F6EEF3;
+    --amber: #C98A2C;
+    --ink: #241B22;
+    --ink-soft: #6B5F68;
+    --line: #E6DEE3;
+    --card: #FFFFFF;
+    --bg: #F4F1F3;
+    --ok: #2E7D53;
+    --ok-tint: #EAF6EF;
+    --danger: #B3402F;
+    --danger-tint: #FBEEEC;
+    --radius: 10px;
+    --shadow: 0 1px 2px rgba(36,27,34,0.06), 0 8px 24px rgba(36,27,34,0.06);
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --plum-tint: #2A1723;
+      --ink: #F1E9EE;
+      --ink-soft: #B9AAB4;
+      --line: #3A2E37;
+      --card: #241B22;
+      --bg: #180F16;
+      --ok-tint: #143523;
+      --danger-tint: #3A1D18;
+    }
+  }
+  :root[data-theme="dark"] {
+    --plum-tint: #2A1723;
+    --ink: #F1E9EE;
+    --ink-soft: #B9AAB4;
+    --line: #3A2E37;
+    --card: #241B22;
+    --bg: #180F16;
+    --ok-tint: #143523;
+    --danger-tint: #3A1D18;
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); height: 100%; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    line-height: 1.5;
+  }
+  header.topbar {
+    background: linear-gradient(135deg, var(--plum) 0%, var(--plum-dark) 100%);
+    color: #fff;
+    padding: calc(env(safe-area-inset-top, 0px) + 18px) 20px 18px;
+  }
+  .topbar-inner { max-width: 720px; margin: 0 auto; }
+  .org { font-size: 12.5px; letter-spacing: 0.02em; opacity: 0.78; margin-bottom: 6px; }
+  .title { font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 22px; }
+  main { max-width: 720px; margin: 0 auto; padding: 24px 20px 60px; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    margin-bottom: 18px;
+  }
+  .card h2 {
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 0 14px;
+    color: var(--plum);
+  }
+  .undertaking-intro { font-size: 14.5px; margin-bottom: 12px; }
+  ol.terms {
+    margin: 0 0 14px;
+    padding-left: 20px;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  ol.terms li { margin-bottom: 7px; }
+  .auditable-note {
+    font-size: 13px;
+    font-style: italic;
+    color: var(--ink-soft);
+    border-top: 1px dashed var(--line);
+    padding-top: 12px;
+  }
+
+  .agree-row {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--plum-tint);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-top: 4px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .switch {
+    position: relative; width: 42px; height: 24px; flex: none;
+  }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider {
+    position: absolute; inset: 0; background: var(--line);
+    border-radius: 999px; transition: background 0.15s ease;
+  }
+  .slider::before {
+    content: ""; position: absolute; width: 18px; height: 18px;
+    left: 3px; top: 3px; background: #fff; border-radius: 50%;
+    transition: transform 0.15s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+  }
+  .switch input:checked + .slider { background: var(--ok); }
+  .switch input:checked + .slider::before { transform: translateX(18px); }
+  .agree-row span { font-size: 14px; }
+
+  label.field-label {
+    display: block; font-size: 12.5px; font-weight: 600;
+    color: var(--ink-soft); margin-bottom: 6px;
+  }
+  .field-row { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 4px; }
+  .field-row > div { flex: 1; min-width: 180px; }
+  input[type="text"], input[type="tel"], input[type="number"] {
+    width: 100%; padding: 11px 12px; font-size: 14.5px;
+    border: 1px solid var(--line); border-radius: 8px;
+    background: transparent; color: var(--ink); font-family: inherit;
+  }
+  input:focus-visible { outline: 2px solid var(--plum); outline-offset: 1px; }
+  input:disabled { opacity: 0.55; }
+
+  .otp-row { display: flex; gap: 10px; margin-top: 10px; align-items: flex-end; flex-wrap: wrap; }
+  .otp-row > div:first-child { flex: 1; min-width: 140px; }
+
+  button {
+    font-family: inherit; font-weight: 600; font-size: 14px;
+    border-radius: 8px; border: none; cursor: pointer;
+    padding: 11px 18px; transition: opacity 0.15s ease, transform 0.05s ease;
+  }
+  button:active { transform: translateY(1px); }
+  button:disabled { opacity: 0.45; cursor: not-allowed; }
+  .btn-primary { background: var(--plum); color: #fff; }
+  .btn-primary:hover:not(:disabled) { opacity: 0.92; }
+  .btn-ghost { background: transparent; color: var(--plum); border: 1px solid var(--plum); }
+
+  .status-banner {
+    display: none;
+    font-size: 13.5px; padding: 10px 14px; border-radius: 8px; margin-top: 12px;
+  }
+  .status-banner.show { display: block; }
+  .status-ok { background: var(--ok-tint); color: var(--ok); }
+  .status-err { background: var(--danger-tint); color: var(--danger); }
+  .status-demo {
+    background: var(--plum-tint); color: var(--plum); font-family: 'Inter', monospace;
+  }
+
+  .submit-bar {
+    display: flex; justify-content: flex-end; gap: 10px; margin-top: 4px;
+  }
+
+  .config-note {
+    font-size: 12.5px; color: var(--ink-soft);
+    border: 1px dashed var(--line); border-radius: 8px;
+    padding: 12px 14px; margin-top: 4px;
+  }
+  .config-note code {
+    background: var(--plum-tint); padding: 1px 5px; border-radius: 4px;
+  }
+
+  .summary-section + .summary-section { margin-top: 18px; padding-top: 18px; border-top: 1px dashed var(--line); }
+  .summary-subhead {
+    font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 700;
+    letter-spacing: 0.02em; text-transform: uppercase; color: var(--amber);
+    margin: 0 0 12px;
+  }
+  .summary-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px 24px;
+  }
+  @media (max-width: 480px) { .summary-grid { grid-template-columns: 1fr; } }
+  .summary-item .label {
+    font-size: 12.5px; font-weight: 600; color: var(--ink-soft); margin-bottom: 3px;
+  }
+  .summary-item .value { font-size: 14.5px; color: var(--ink); word-break: break-word; }
+  .summary-item .value.empty { color: var(--ink-soft); font-style: italic; }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+  .tag-chip {
+    display: inline-block; font-size: 12.5px; padding: 3px 10px;
+    background: var(--plum-tint); color: var(--plum); border-radius: 999px;
+  }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="org">HyFun Group · Internal / Confidential</div>
+    <div class="title">IT Asset Allocation — User Undertaking</div>
+  </div>
+</header>
+
+<main>
+
+  <div id="formView">
+
+    <div class="card" id="detailsCard">
+      <h2>Your submitted details</h2>
+      <p class="undertaking-intro">Please check that everything below matches what was filled in on the allocation form before you sign.</p>
+
+      <div class="summary-section">
+        <p class="summary-subhead">User details</p>
+        <div class="summary-grid" id="userDetailsGrid"></div>
+      </div>
+
+      <div class="summary-section">
+        <p class="summary-subhead">Asset record &amp; OS config</p>
+        <div class="summary-grid" id="assetDetailsGrid"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>User undertaking</h2>
+      <p class="undertaking-intro">I have received the asset(s) listed in Section 3 in good working condition and undertake to:</p>
+      <ol class="terms">
+        <li>Use the asset(s) only for official work, not for personal, unlawful or unauthorized activity.</li>
+        <li>Not install or use any unlicensed, unauthorized or pirated software or media.</li>
+        <li>Protect the confidentiality, integrity and availability of all company data on or accessed through the asset.</li>
+        <li>Never share my passwords or login credentials with anyone.</li>
+        <li>Not disable, bypass or tamper with antivirus, encryption, firewall or any security control set by the IT Department.</li>
+        <li>Avoid connecting the asset to public, unsecured or unauthorized networks (LAN/Wi-Fi) or external devices.</li>
+        <li>Handle the asset with due care and keep it in a secure condition at all times, both within and outside company premises.</li>
+        <li>Report any loss, theft, damage or suspected security incident to the IT Department immediately.</li>
+        <li>Accept that all data on the asset belongs to HyFun Group and may be monitored, reviewed and audited as per organization policy.</li>
+        <li>Return the asset with all accessories and company data, in good condition, on separation, role change or on request.</li>
+        <li>Accept financial and/or disciplinary liability for loss, theft or damage caused by negligence, misuse or non-compliance.</li>
+      </ol>
+      <p class="auditable-note">This form is auditable ISMS evidence and will be retained by the IT Department.</p>
+
+      <div class="agree-row" id="agreeRow">
+        <label class="switch">
+          <input type="checkbox" id="agreeToggle">
+          <span class="slider"></span>
+        </label>
+        <span>I have read, understood and absolutely agree to all 11 security policy terms above.</span>
+      </div>
+    </div>
+
+    <div class="card" id="signCard">
+      <h2>User authorization &amp; sign</h2>
+
+      <div class="field-row">
+        <div>
+          <label class="field-label" for="empName">Employee name</label>
+          <input type="text" id="empName" placeholder="As per company records" autocomplete="name">
+        </div>
+        <div>
+          <label class="field-label" for="empEmail">Email ID</label>
+          <input type="text" id="empEmail" placeholder="name@hyfunfoods.com" autocomplete="email">
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div>
+          <label class="field-label" for="empId">Employee ID</label>
+          <input type="text" id="empId" placeholder="e.g. HYF-0421">
+        </div>
+      </div>
+
+      <div class="otp-row">
+        <div>
+          <label class="field-label" for="otp">One-time verification code</label>
+          <input type="number" id="otp" placeholder="6-digit code" disabled inputmode="numeric">
+        </div>
+        <button class="btn-ghost" id="sendOtpBtn" type="button">Send code</button>
+        <button class="btn-primary" id="verifyOtpBtn" type="button" disabled>Verify code</button>
+      </div>
+
+      <div class="status-banner" id="otpStatus"></div>
+
+      <div class="submit-bar" style="margin-top:20px;">
+        <button class="btn-primary" id="submitBtn" type="button" disabled>Sign &amp; submit</button>
+      </div>
+
+      <div class="status-banner" id="submitStatus"></div>
+    </div>
+
+  </div>
+
+</main>
+
+<script>
+(function () {
+  // ---- CONFIGURATION -------------------------------------------------
+  // Point this at your Power Automate "When an HTTP request is received"
+  // trigger URL (or a Dataverse Web API endpoint). Leave as-is to see the
+  // demo behaviour with no live endpoint configured.
+  const POWER_AUTOMATE_URL = ""; // e.g. "https://prod-00.centralindia.logic.azure.com/workflows/..."
+
+  const agreeToggle = document.getElementById('agreeToggle');
+  const empName = document.getElementById('empName');
+  const empEmail = document.getElementById('empEmail');
+  const empId = document.getElementById('empId');
+  const otp = document.getElementById('otp');
+  const sendOtpBtn = document.getElementById('sendOtpBtn');
+  const verifyOtpBtn = document.getElementById('verifyOtpBtn');
+  const submitBtn = document.getElementById('submitBtn');
+  const otpStatus = document.getElementById('otpStatus');
+  const submitStatus = document.getElementById('submitStatus');
+  const formView = document.getElementById('formView');
+
+  let demoCode = null;
+  let otpVerified = false;
+
+  // ---- Review card: every Screen 1 (User Details) + Screen 2 (Asset
+  // Record / OS Config) field, read from this link's query parameters.
+  // Power Automate should pass all of these when it builds the link, e.g.
+  // ...?name=Jane%20Doe&email=jane%40hyfunfoods.com&dept=Finance&...
+  const USER_DETAIL_FIELDS = [
+    ['name', 'Employee Name'],
+    ['empId', 'Employee ID'],
+    ['dept', 'Department'],
+    ['designation', 'Designation'],
+    ['location', 'Location / Branch'],
+    ['manager', 'Reporting Manager'],
+    ['contact', 'Contact Number'],
+    ['doj', 'Date of Joining'],
+    ['empType', 'Employment Type'],
+    ['vendor', 'Vendor Name (If Third-Party)'],
+    ['domain', 'Domain'],
+    ['email', 'Email ID']
+  ];
+  const ASSET_DETAIL_FIELDS = [
+    ['assetCategory', 'Asset Category'],
+    ['assetTag', 'Asset Tag / ID'],
+    ['makeModel', 'Make & Model'],
+    ['serialNo', 'Serial No.'],
+    ['accessories', 'Accessories Issued', 'tags'],
+    ['remarks', 'Remarks'],
+    ['os', 'Operating System'],
+    ['cpu', 'CPU'],
+    ['ram', 'RAM'],
+    ['storage', 'HDD / SSD'],
+    ['security', 'Security Compliance Software', 'tags'],
+    ['issuerName', 'Issued By (Name)'],
+    ['issuerId', 'Issued By (Employee ID)']
+  ];
+
+  function renderSummaryGrid(gridEl, fields, params) {
+    gridEl.innerHTML = fields.map(function (f) {
+      const key = f[0], label = f[1], kind = f[2];
+      const raw = params.get(key);
+      const item = document.createElement('div');
+      let inner = '<div class="label">' + label + '</div>';
+      if (!raw) {
+        inner += '<div class="value empty">Not provided</div>';
+      } else if (kind === 'tags') {
+        const chips = raw.split(',').map(function (t) { return t.trim(); }).filter(Boolean);
+        inner += '<div class="tag-list">' + chips.map(function (c) {
+          return '<span class="tag-chip">' + c.replace(/</g, '&lt;') + '</span>';
+        }).join('') + '</div>';
+      } else {
+        inner += '<div class="value">' + raw.replace(/</g, '&lt;') + '</div>';
+      }
+      item.className = 'summary-item';
+      item.innerHTML = inner;
+      return item.outerHTML;
+    }).join('');
+  }
+
+  (function renderDetailsReview() {
+    const params = new URLSearchParams(window.location.search);
+    renderSummaryGrid(document.getElementById('userDetailsGrid'), USER_DETAIL_FIELDS, params);
+    renderSummaryGrid(document.getElementById('assetDetailsGrid'), ASSET_DETAIL_FIELDS, params);
+  })();
+
+  // ---- Pre-fill from the link (Power Automate builds this link with the
+  // employee's name & email pulled from the Power Apps form, e.g.
+  // ...?name=Jane%20Doe&email=jane.doe%40hyfunfoods.com) --------------
+  (function prefillFromLink() {
+    const params = new URLSearchParams(window.location.search);
+    const nameParam = params.get('name');
+    const emailParam = params.get('email');
+    const idParam = params.get('empId') || params.get('id');
+
+    if (nameParam) {
+      empName.value = nameParam;
+      empName.readOnly = true;
+      empName.style.opacity = '0.7';
+    }
+    if (emailParam) {
+      empEmail.value = emailParam;
+      empEmail.readOnly = true;
+      empEmail.style.opacity = '0.7';
+    }
+    if (idParam) {
+      empId.value = idParam;
+    }
+  })();
+
+  function showBanner(el, text, kind) {
+    el.textContent = text;
+    el.className = 'status-banner show ' + kind;
+  }
+
+  function fieldsReadyForOtp() {
+    return agreeToggle.checked && empName.value.trim() && empEmail.value.trim() && empId.value.trim();
+  }
+
+  function refreshSendButton() {
+    sendOtpBtn.disabled = !fieldsReadyForOtp();
+  }
+
+  function invalidateOtpIfVerified() {
+    if (otpVerified) {
+      otpVerified = false;
+      submitBtn.disabled = true;
+      verifyOtpBtn.disabled = true;
+      otp.disabled = true;
+      otp.value = '';
+      showBanner(otpStatus, 'Details changed after verification — send a new code and verify again.', 'status-err');
+    }
+  }
+
+  [agreeToggle, empName, empEmail, empId].forEach(el => {
+    el.addEventListener('input', refreshSendButton);
+    el.addEventListener('change', refreshSendButton);
+    el.addEventListener('input', invalidateOtpIfVerified);
+    el.addEventListener('change', invalidateOtpIfVerified);
+  });
+  refreshSendButton();
+
+  sendOtpBtn.addEventListener('click', function () {
+    if (!fieldsReadyForOtp()) return;
+    demoCode = String(Math.floor(100000 + Math.random() * 900000));
+    otp.disabled = false;
+    verifyOtpBtn.disabled = false;
+    otp.value = '';
+    otpVerified = false;
+    submitBtn.disabled = true;
+    showBanner(otpStatus, 'Demo mode — no verification gateway connected. Your code is ' + demoCode + ' (this line disappears once DocuSign email/SMS auth is wired in).', 'status-demo');
+    otp.focus();
+  });
+
+  verifyOtpBtn.addEventListener('click', function () {
+    if (otp.value.trim() === demoCode && demoCode) {
+      otpVerified = true;
+      submitBtn.disabled = false;
+      showBanner(otpStatus, 'Code verified.', 'status-ok');
+    } else {
+      otpVerified = false;
+      submitBtn.disabled = true;
+      showBanner(otpStatus, 'That code did not match. Send a new one and try again.', 'status-err');
+    }
+  });
+
+  submitBtn.addEventListener('click', async function () {
+    if (!otpVerified) return;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting…';
+
+    const payload = {
+      employeeName: empName.value.trim(),
+      employeeEmail: empEmail.value.trim(),
+      employeeId: empId.value.trim(),
+      agreedToPolicy: true,
+      otpVerified: true,
+      signedAtUtc: new Date().toISOString()
+    };
+
+    try {
+      if (POWER_AUTOMATE_URL) {
+        const res = await fetch(POWER_AUTOMATE_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error('Request failed: ' + res.status);
+      } else {
+        // No endpoint configured yet — just log locally so you can see the payload shape.
+        console.log('Payload that would be sent to Power Automate:', payload);
+        await new Promise(r => setTimeout(r, 600));
+      }
+      submitBtn.textContent = 'Submitted';
+      showBanner(submitStatus, 'Submitted — your signed record has been sent through.', 'status-ok');
+    } catch (err) {
+      showBanner(submitStatus, 'Could not submit: ' + err.message + '. Please try again.', 'status-err');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Sign & submit';
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
